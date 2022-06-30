@@ -16,7 +16,6 @@ namespace EfHomework
 {
     public class Startup
     {
-        private static readonly AccountantController _accountantController = new AccountantController();
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -32,7 +31,6 @@ namespace EfHomework
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddRazorPages();
-            _accountantController.GetSalary(34);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

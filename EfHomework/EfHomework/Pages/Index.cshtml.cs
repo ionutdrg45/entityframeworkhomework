@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EfHomework.Controller;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,6 +11,7 @@ namespace EfHomework.Pages
 {
     public class IndexModel : PageModel
     {
+        private static readonly AccountantController _accountantController = new AccountantController();
         private readonly ILogger<IndexModel> _logger;
 
         public IndexModel(ILogger<IndexModel> logger)
@@ -19,7 +21,7 @@ namespace EfHomework.Pages
 
         public void OnGet()
         {
-
+            ViewData["EmployeeSalary"] = _accountantController.GetSalary(34);
         }
     }
 }

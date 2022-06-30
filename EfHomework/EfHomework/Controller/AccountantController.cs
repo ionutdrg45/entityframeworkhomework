@@ -10,11 +10,13 @@ namespace EfHomework.Controller
     public class AccountantController
     {
         private readonly AccountantContext _accountantContext = new AccountantContext(new DbContextOptions<AccountantContext>());
-        public void GetSalary(int employeeId)
+        public string GetSalary(int employeeId, int lastDays = 7)
         {
             var employeeList = _accountantContext.Employees.ToList();
 
             var employeeFound = employeeList.Find(emp => emp.Id == employeeId);
+
+            var result = "";
             
             if(employeeFound != null)
             {
@@ -25,10 +27,7 @@ namespace EfHomework.Controller
                 foreach(EmployeeTasks empTask in employeeTasksList)
                 {
                     var task = tasksList.FirstOrDefault(tsk => tsk.Id == empTask.TaskId);
-
-                    Debug.WriteLine(employeeFound.Name + " Total days " + (DateTime.Now - task.Date).TotalDays + " date " + task.Date);
-
-                    if ((DateTime.Now - task.Date).TotalDays <= 7)
+                    if ((DateTime.Now - task.Date).TotalDays <= lastDays)
                     {
                         if (task.IsSpecial == true) salary += task.Price;
                         else
@@ -40,12 +39,13 @@ namespace EfHomework.Controller
                     }
                 }
 
-                Debug.WriteLine(employeeFound.Name + " salary is " + salary);
+                result = employeeFound.Name + " salary is " + String.Format("{0:0.00}", salary);
             }
             else
             {
-                Debug.WriteLine("No emplyee found.");
+                result = "No emplyee found.";
             }
+            return result;
         }
     }
 }
