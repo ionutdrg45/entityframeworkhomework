@@ -5,7 +5,20 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <h2 class="display-4">@ViewData["EmployeeSalary"]</h2>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h2>Please select your date for the week.</h2>
+    <form method="post">
+        <input type="date" name="weekDate" value="2022-06-01" min="2020-01-01" max="@ViewData["MaxFormDate"]">
+
+        <input type="submit">
+    </form>
+
+    <div class="border bg-white mt-4">
+        <br />
+        @foreach (var item in Model.ResultStrings)
+        {
+            <div>
+                @Html.DisplayFor(m => item)
+            </div>
+        }
+    </div>
 </div>

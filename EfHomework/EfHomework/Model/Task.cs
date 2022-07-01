@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace EfHomework.Model
 {
@@ -11,5 +12,7 @@ namespace EfHomework.Model
         public TimeSpan EndTime { get; set; }
         public bool IsSpecial { get; set; }
         public double Price { get; set; }
+        public virtual List<Employee> Employees { get; set; } = new List<Employee>();
+        public int ProjectId { get; set; }
     }
 }

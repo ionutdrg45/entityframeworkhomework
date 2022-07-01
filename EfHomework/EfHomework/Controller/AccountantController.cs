@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace EfHomework.Controller
@@ -10,42 +9,39 @@ namespace EfHomework.Controller
     public class AccountantController
     {
         private readonly AccountantContext _accountantContext = new AccountantContext(new DbContextOptions<AccountantContext>());
-        public string GetSalary(int employeeId, int lastDays = 7)
+        public List<string> GetSalary(DateTime date)
         {
+            _accountantContext.Employees.Include(x => x.Tasks).ToList();
+            _accountantContext.Tasks.Include(x => x.Employees).ToList();
+            _accountantContext.Projects.Include(x => x.Tasks).ToList();
+
+            List<string> finalResult = new List<string>();
             var employeeList = _accountantContext.Employees.ToList();
+            var projectList = _accountantContext.Projects.ToList();
 
-            var employeeFound = employeeList.Find(emp => emp.Id == employeeId);
-
-            var result = "";
-            
-            if(employeeFound != null)
+            foreach(Employee employee in employeeList)
             {
-                double salary = 0;
-                List<EmployeeTasks> employeeTasksList = _accountantContext.EmpoyeeTasks.Where(emptsk => emptsk.EmployeeId == employeeFound.Id).ToList();
-                var tasksList = _accountantContext.Tasks.ToList();
-
-                foreach(EmployeeTasks empTask in employeeTasksList)
+                double finalSalary = 0;
+                foreach(Task task in employee.Tasks)
                 {
-                    var task = tasksList.FirstOrDefault(tsk => tsk.Id == empTask.TaskId);
-                    if ((DateTime.Now - task.Date).TotalDays <= lastDays)
+                    double salary = 0;
+
+                    if (task.Date >= date && task.Date <= date.AddDays(7))
                     {
+                        Project project = projectList.FirstOrDefault(prj => prj.Id == task.ProjectId);
+
+                        var totalHours = Math.Abs(Convert.ToDouble((task.EndTime - task.StartTime).TotalHours));
+
                         if (task.IsSpecial == true) salary += task.Price;
-                        else
-                        {
-                            var totalHours = (task.EndTime - task.StartTime).TotalHours;
-                            Debug.WriteLine(employeeFound.Name + " " + totalHours);
-                            salary += Math.Abs(Convert.ToDouble(totalHours)) * task.Price;
-                        }
+                        else salary += totalHours * task.Price;
+
+                        finalResult.Add($"{employee.Name}, {project.Name}, {task.Name}, {(task.IsSpecial ? "fixed price" : totalHours + " hours")}, {salary}");
+                        finalSalary += salary;
                     }
                 }
-
-                result = employeeFound.Name + " salary is " + String.Format("{0:0.00}", salary);
+                finalResult.Add($"{employee.Name} - Total week ({date} - {date.AddDays(7)}): {finalSalary}");
             }
-            else
-            {
-                result = "No emplyee found.";
-            }
-            return result;
+            return finalResult;
         }
     }
 }

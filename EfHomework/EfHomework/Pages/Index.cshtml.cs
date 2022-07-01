@@ -4,15 +4,15 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EfHomework.Pages
 {
     public class IndexModel : PageModel
-    {
+    { 
         private static readonly AccountantController _accountantController = new AccountantController();
         private readonly ILogger<IndexModel> _logger;
+        [BindProperty]
+        public List<string> ResultStrings { get; set; } = new List<string>();
 
         public IndexModel(ILogger<IndexModel> logger)
         {
@@ -21,7 +21,19 @@ namespace EfHomework.Pages
 
         public void OnGet()
         {
-            ViewData["EmployeeSalary"] = _accountantController.GetSalary(34);
+            InitVars();
+        }
+
+        public void OnPost()
+        {
+            InitVars();
+            var datePicked = Request.Form["weekDate"];
+            ResultStrings = _accountantController.GetSalary(DateTime.Parse(datePicked));
+        }
+
+        public void InitVars()
+        {
+            ViewData["MaxFormDate"] = DateTime.Now.ToString("yyyy-MM-dd");
         }
     }
 }

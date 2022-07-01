@@ -55,7 +55,6 @@ D:\Documents\TALENTING WORKSPACE\projects\EfHomework\EfHomework\obj\Debug\net5.0
 D:\Documents\TALENTING WORKSPACE\projects\EfHomework\EfHomework\obj\Debug\net5.0\EfHomework.RazorCoreGenerate.cache
 D:\Documents\TALENTING WORKSPACE\projects\EfHomework\EfHomework\obj\Debug\net5.0\Razor\Pages\Error.cshtml.g.cs
 D:\Documents\TALENTING WORKSPACE\projects\EfHomework\EfHomework\obj\Debug\net5.0\Razor\Pages\Index.cshtml.g.cs
-D:\Documents\TALENTING WORKSPACE\projects\EfHomework\EfHomework\obj\Debug\net5.0\Razor\Pages\Privacy.cshtml.g.cs
 D:\Documents\TALENTING WORKSPACE\projects\EfHomework\EfHomework\obj\Debug\net5.0\Razor\Pages\Shared\_Layout.cshtml.g.cs
 D:\Documents\TALENTING WORKSPACE\projects\EfHomework\EfHomework\obj\Debug\net5.0\Razor\Pages\Shared\_ValidationScriptsPartial.cshtml.g.cs
 D:\Documents\TALENTING WORKSPACE\projects\EfHomework\EfHomework\obj\Debug\net5.0\Razor\Pages\_ViewImports.cshtml.g.cs
